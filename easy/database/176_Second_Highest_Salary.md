@@ -1,7 +1,10 @@
 ```mysql
-select E.SecondHighestSalary
-from ( SELECT RANK() OVER (ORDER BY Salary DESC) r, Salary SecondHighestSalary
-FROM Employee) E
-where E.r = 2
+SELECT
+    IFNULL(
+      (SELECT DISTINCT Salary
+       FROM Employee
+       ORDER BY Salary DESC
+        LIMIT 1 OFFSET 1),
+    NULL) AS SecondHighestSalary
 ;
 ```
